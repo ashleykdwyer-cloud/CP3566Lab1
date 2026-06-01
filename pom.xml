@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ca.cna.cp3566</groupId>
+    <artifactId>module2-starter</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>CP3566 Module 2 — JDBC Starter</name>
+    <description>
+        Turn-key starter project for the JDBC lab of CP3566 (Applied Java Programming).
+        The H2 database engine is bundled under .mvn/repo, so this project compiles
+        and runs offline with zero database installation. H2 is a pure-Java embedded
+        SQL database — same JDBC API students would use against MySQL or PostgreSQL.
+    </description>
+
+    <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!--
+        The bundled repository ships the H2 Database Engine 2.3.232 JAR plus
+        a minimal POM. Maven resolves the dependency from this local folder
+        before reaching out to the internet, so the project builds without a
+        network connection.
+    -->
+    <repositories>
+        <repository>
+            <id>project-bundled-repo</id>
+            <name>Bundled local repository (H2 Database Engine)</name>
+            <url>file://${project.basedir}/.mvn/repo</url>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.3.232</version>
+        </dependency>
+    </dependencies>
+
+</project>
