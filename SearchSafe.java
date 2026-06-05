@@ -1,31 +1,32 @@
 import java.sql.*;
 
-public class SearchUnsafe {
+public class SearchSafe {
     private static final String url  = "jdbc:h2:./data/studentdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE";
     private static final String user = "sa";
     private static final String password = "secret";
 
     public static void main(String[] args) {
         if (args.length == 0) {
-            System.err.println("Usage: java SearchUnsafe <search_term>");
+            System.err.println("Usage: java SearchSafe <search_term>");
             System.exit(1);
         }
 
         String searchTerm = args[0];
         DriverManager.setLoginTimeout(5);
-        long startTime = System.nanoTime();
 
-        // UNSAFE: Search term concatenated directly into the SQL query (SQL Injection vulnerability)
-        String sql = "SELECT id, name, program, gpa FROM student WHERE name LIKE '%" + searchTerm + "%' ORDER BY id";
+        // SAFE: Use PreparedStatement with a parameter for the LIKE pattern to avoid SQL injection
+        String sql = "SELECT id, name, program, gpa FROM student WHERE name LIKE ? ORDER BY id";
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
-             Statement stmt = conn.createStatement()) {
-            stmt.setQueryTimeout(10);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            // Set a query timeout in seconds
+            pstmt.setQueryTimeout(10);
 
+            // Bind the parameter with wildcards for the LIKE pattern
+            pstmt.setString(1, "%" + searchTerm + "%");
 
-            try (ResultSet rs = stmt.executeQuery(sql)) {
+            try (ResultSet rs = pstmt.executeQuery()) {
                 boolean found = false;
-
 
                 while (rs.next()) {
                     found = true;
@@ -38,7 +39,7 @@ public class SearchUnsafe {
                 }
 
                 if (!found) {
-                    System.out.println("No results");
+                    System.out.println("(no results)");
                 }
             }
 
@@ -55,6 +56,4 @@ public class SearchUnsafe {
         }
     }
 }
-
-
 

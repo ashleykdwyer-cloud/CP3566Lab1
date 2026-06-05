@@ -1,19 +1,10 @@
 import java.sql.*;
 
-/**
- * AddStudent.java — Insert a new student into the H2 database.
- *
- * Reads name, program, and GPA from command line arguments, validates them,
- * inserts the student using a PreparedStatement, and prints the generated
- * student ID.
- *
- * Usage: java AddStudent <name> <program> <gpa>
- * Example: java AddStudent "John Doe" "CS" "3.85"
- */
+
 public class AddStudent {
-    private static final String url  = "jdbc:h2:./data/studentdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE";
-    private static final String user = "sa";
-    private static final String password = "secret";
+    private static final String URL  = "jdbc:h2:./data/studentdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE";
+    private static final String USER = "sa";
+    private static final String PASS = "secret";
 
 
 
@@ -39,7 +30,7 @@ public class AddStudent {
         double gpa = Double.parseDouble(gpaStr);
 
         // Insert student and retrieve generated ID
-        try (Connection conn = DriverManager.getConnection(url, user, password);
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              PreparedStatement ps = conn.prepareStatement(
                      "INSERT INTO student (name, program, gpa) VALUES (?, ?, ?)",
                      Statement.RETURN_GENERATED_KEYS)) {
@@ -72,14 +63,7 @@ public class AddStudent {
         }
     }
 
-    /**
-     * Validates the input parameters.
-     *
-     * @param name    Student name
-     * @param program Program code
-     * @param gpaStr  GPA as a string
-     * @return true if all inputs are valid, false otherwise
-     */
+
     private static boolean validateInputs(String name, String program, String gpaStr) {
         // Validate name
         if (name == null || name.trim().isEmpty()) {

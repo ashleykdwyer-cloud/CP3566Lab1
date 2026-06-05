@@ -1,22 +1,19 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class ListStudents {
+
+    private static final String URL  = "jdbc:h2:./data/studentdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE";
+    private static final String USER = "sa";
+    private static final String PASS = "secret";
+
     public static void main(String[] args) {
-        String url  = "jdbc:h2:./data/studentdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE";
-        String user = "sa";
-        String password = "secret";
         // Set login timeout to 5 seconds before calling driver manager
         DriverManager.setLoginTimeout(5);
-
         long startTime = System.nanoTime();
 
         String sql = "SELECT id, name, program, gpa FROM student ORDER BY id";
 
-        try (Connection conn = DriverManager.getConnection(url, user, password);
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
              Statement stmt = conn.createStatement()) {
             // Set query timeout to 10 seconds before executing statement
             stmt.setQueryTimeout(10);

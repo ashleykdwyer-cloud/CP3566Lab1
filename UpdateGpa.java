@@ -1,15 +1,5 @@
 import java.sql.*;
 
-/**
- * UpdateGpa.java — Update a student's GPA in the H2 database.
- *
- * Reads student ID and new GPA from command line arguments, validates them,
- * updates the student's GPA using a PreparedStatement, and reports whether
- * 1 or 0 rows were changed.
- *
- * Usage: java UpdateGpa <student_id> <gpa>
- * Example: java UpdateGpa 1 3.95
- */
 public class UpdateGpa {
     private static final String url  = "jdbc:h2:./data/studentdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE";
     private static final String user = "sa";
@@ -68,13 +58,7 @@ public class UpdateGpa {
         }
     }
 
-    /**
-     * Validates the input parameters.
-     *
-     * @param idStr  Student ID as a string
-     * @param gpaStr GPA as a string
-     * @return true if all inputs are valid, false otherwise
-     */
+
     private static boolean validateInputs(String idStr, String gpaStr) {
         // Validate student ID
         try {

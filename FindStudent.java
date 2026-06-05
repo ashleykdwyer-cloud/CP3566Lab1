@@ -36,7 +36,7 @@ public class FindStudent {
                             rs.getString("program"),
                             rs.getDouble("gpa"));
                 } else {
-                    System.out.printf("No student found with id %d%n", studentId);
+                    System.out.printf("No student with id %d%n", studentId);
                 }
             }
         }
